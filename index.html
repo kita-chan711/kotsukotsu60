@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="コツコツ60">
+</head>
+<body>
+<title>コツコツ60 — 毎日60分学習</title>
+<style>
+  :root {
+    --paper: #F2F3EF;
+    --card: #FFFFFF;
+    --card-2: #F6F7F3;
+    --ink: #23324D;
+    --ink-soft: #64708A;
+    --line: #DFE2DA;
+    --accent: #2F55A4;
+    --accent-ink: #FFFFFF;
+    --gold: #C9A227;
+    --ok: #3D8B57;
+    --c-ja: #C24E4E;
+    --c-en: #7B5EB4;
+    --c-sci: #3D8B57;
+    --c-soc: #C97B2E;
+    --c-math: #3874B8;
+    --shadow: 0 1px 3px rgba(35, 50, 77, .08), 0 4px 14px rgba(35, 50, 77, .06);
+    --font-display: "Hiragino Maru Gothic ProN", "HG Maru Gothic M-PRO", "Yu Gothic", "YuGothic", sans-serif;
+    --font-body: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #161A22;
+      --card: #1E242F;
+      --card-2: #232A37;
+      --ink: #E7EAF2;
+      --ink-soft: #9AA4B8;
+      --line: #333C4C;
+      --accent: #8AA8EE;
+      --accent-ink: #131A2A;
+      --gold: #E3C55A;
+      --ok: #6FBE8D;
+      --c-ja: #E08585;
+      --c-en: #AC94DE;
+      --c-sci: #6FBE8D;
+      --c-soc: #E3A05C;
+      --c-math: #7FABDE;
+      --shadow: 0 1px 3px rgba(0, 0, 0, .35), 0 4px 14px rgba(0, 0, 0, .25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #161A22;
+    --card: #1E242F;
+    --card-2: #232A37;
+    --ink: #E7EAF2;
+    --ink-soft: #9AA4B8;
+    --line: #333C4C;
+    --accent: #8AA8EE;
+    --accent-ink: #131A2A;
+    --gold: #E3C55A;
+    --ok: #6FBE8D;
+    --c-ja: #E08585;
+    --c-en: #AC94DE;
+    --c-sci: #6FBE8D;
+    --c-soc: #E3A05C;
+    --c-math: #7FABDE;
+    --shadow: 0 1px 3px rgba(0, 0, 0, .35), 0 4px 14px rgba(0, 0, 0, .25);
+  }
+  :root[data-theme="light"] {
+    --paper: #F2F3EF;
+    --card: #FFFFFF;
+    --card-2: #F6F7F3;
+    --ink: #23324D;
+    --ink-soft: #64708A;
+    --line: #DFE2DA;
+    --accent: #2F55A4;
+    --accent-ink: #FFFFFF;
+    --gold: #C9A227;
+    --ok: #3D8B57;
+    --c-ja: #C24E4E;
+    --c-en: #7B5EB4;
+    --c-sci: #3D8B57;
+    --c-soc: #C97B2E;
+    --c-math: #3874B8;
+    --shadow: 0 1px 3px rgba(35, 50, 77, .08), 0 4px 14px rgba(35, 50, 77, .06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; cursor: pointer; }
+  button:focus-visible, .chip:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 16px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ---------- header ---------- */
+  .masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: .02em;
+    margin: 0;
+  }
+  .brand .num { color: var(--accent); }
+  .tagline {
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: .08em;
+  }
+
+  .status {
+    display: flex;
+    gap: 10px;
+  }
+  .status-tile {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 10px 14px;
+  }
+  .status-tile .lbl {
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: .1em;
+  }
+  .status-tile .val {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .status-tile .val small { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+  .xpbar {
+    height: 6px;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .xpbar > i {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+    transition: width .4s ease;
+  }
+
+  /* ---------- tabs ---------- */
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 5px;
+  }
+  .tabs button {
+    border: 0;
+    background: transparent;
+    color: var(--ink-soft);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 9px 0;
+    border-radius: 10px;
+  }
+  .tabs button[aria-selected="true"] {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  /* ---------- cards ---------- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 16px;
+  }
+  .section-h {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 4px 2px;
+  }
+  .section-h h2 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0;
+  }
+  .section-h .sub { font-size: 12px; color: var(--ink-soft); }
+
+  /* ---------- today ---------- */
+  .today-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .today-head .date {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+  }
+  .today-head .note { font-size: 12px; color: var(--ink-soft); }
+  .dots { display: flex; gap: 7px; }
+  .dots i {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: var(--card-2);
+    border: 1.5px solid var(--line);
+  }
+  .dots i.on { background: var(--accent); border-color: var(--accent); }
+
+  .blocks { display: flex; flex-direction: column; gap: 12px; }
+  .block {
+    position: relative;
+    overflow: hidden;
+    padding-left: 22px;
+  }
+  .block::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--sc, var(--accent));
+  }
+  .block .row1 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .subj-chip {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--sc, var(--accent));
+    background: color-mix(in srgb, var(--sc, var(--accent)) 13%, transparent);
+    padding: 2px 10px;
+    border-radius: 99px;
+  }
+  .mins {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .badge-done {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ok);
+  }
+  .badge-bonus {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: .06em;
+  }
+  .block .step-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin: 6px 0 2px;
+    text-wrap: balance;
+  }
+  .block .step-no { font-size: 11.5px; color: var(--ink-soft); }
+  .block .acts {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .btn {
+    border: 1.5px solid var(--line);
+    background: var(--card-2);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 8px 14px;
+    border-radius: 11px;
+  }
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .btn.ghost { background: transparent; }
+  .block.is-done { opacity: .82; }
+  .block.is-done .step-title { text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: color-mix(in srgb, var(--ink) 40%, transparent); }
+
+  /* timer */
+  .timer-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0 4px;
+  }
+  .ring { position: relative; width: 158px; height: 158px; }
+  .ring svg { transform: rotate(-90deg); display: block; }
+  .ring .track { stroke: var(--card-2); }
+  .ring .bar {
+    stroke: var(--sc, var(--accent));
+    transition: stroke-dashoffset .5s linear;
+  }
+  .ring .tval {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+  }
+  .ring .tval b {
+    font-size: 32px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .02em;
+  }
+  .ring .tval span { font-size: 11px; color: var(--ink-soft); }
+
+  /* step question */
+  .ask {
+    margin-top: 10px;
+    background: var(--card-2);
+    border: 1px dashed var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .ask p { margin: 0 0 8px; font-size: 13.5px; font-weight: 700; }
+  .ask .acts { margin-top: 0; }
+
+  .cheer {
+    text-align: center;
+    background: color-mix(in srgb, var(--gold) 14%, var(--card));
+    border-color: color-mix(in srgb, var(--gold) 45%, var(--line));
+  }
+  .cheer .big {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 4px;
+  }
+  .cheer p { margin: 0; font-size: 13px; color: var(--ink-soft); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cheer { animation: pop .45s cubic-bezier(.2, 1.4, .4, 1); }
+    @keyframes pop {
+      from { transform: scale(.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  }
+
+  /* ---------- steps tab ---------- */
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip {
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    color: var(--ink-soft);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 13.5px;
+    padding: 7px 16px;
+    border-radius: 99px;
+  }
+  .chip[aria-selected="true"] {
+    color: var(--sc);
+    border-color: var(--sc);
+    background: color-mix(in srgb, var(--sc) 12%, transparent);
+  }
+  .ladder { display: flex; flex-direction: column; gap: 0; padding: 6px 16px; }
+  .rung {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    width: 100%;
+    background: none;
+    border-left: 0; border-right: 0; border-top: 0;
+    text-align: left;
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .rung:last-child { border-bottom: 0; }
+  .rung .no {
+    flex: 0 0 26px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .rung .box {
+    flex: 0 0 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 1.5px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--accent-ink);
+  }
+  .rung.cleared .box { background: var(--sc); border-color: var(--sc); }
+  .rung.cleared .t { color: var(--ink-soft); text-decoration: line-through; }
+  .rung .t { flex: 1; }
+  .rung .now {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--sc);
+    background: color-mix(in srgb, var(--sc) 13%, transparent);
+    border-radius: 99px;
+    padding: 1px 8px;
+    white-space: nowrap;
+  }
+  .ladder-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 16px 4px;
+  }
+  .ladder-h b { font-family: var(--font-display); }
+  .ladder-h span { font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .hint { font-size: 12px; color: var(--ink-soft); margin: 2px 4px; }
+
+  /* ---------- records ---------- */
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .stat-row .card { padding: 12px 14px; }
+  .stat-row .lbl { font-size: 11px; color: var(--ink-soft); letter-spacing: .06em; }
+  .stat-row .val {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-row .val small { font-size: 12px; color: var(--ink-soft); font-weight: 600; }
+
+  .heat {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .heat i {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+  }
+  .heat i.l1 { background: color-mix(in srgb, var(--accent) 25%, var(--card)); }
+  .heat i.l2 { background: color-mix(in srgb, var(--accent) 50%, var(--card)); }
+  .heat i.l3 { background: color-mix(in srgb, var(--accent) 72%, var(--card)); }
+  .heat i.l4 { background: var(--accent); border-color: var(--accent); }
+  .heat i.today { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .heat-lgd {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    align-items: center;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+  .heat-lgd i {
+    width: 11px; height: 11px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    background: var(--card-2);
+  }
+  .heat-lgd i.l4 { background: var(--accent); border-color: var(--accent); }
+
+  .sub-prog { display: flex; flex-direction: column; gap: 12px; }
+  .sub-prog .row { display: flex; align-items: center; gap: 10px; }
+  .sub-prog .nm {
+    flex: 0 0 44px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--sc);
+  }
+  .sub-prog .bar {
+    flex: 1;
+    height: 9px;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .sub-prog .bar i {
+    display: block;
+    height: 100%;
+    background: var(--sc);
+    border-radius: 99px;
+  }
+  .sub-prog .ct {
+    flex: 0 0 44px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  footer.note {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+</style>
+
+<div class="app">
+  <div class="masthead">
+    <h1 class="brand">コツコツ<span class="num">60</span></h1>
+    <div class="tagline">1日60分・スモールステップ</div>
+  </div>
+
+  <div class="status">
+    <div class="status-tile">
+      <div class="lbl">れんぞく</div>
+      <div class="val" id="st-streak">0<small> 日</small></div>
+    </div>
+    <div class="status-tile" style="flex:1.4">
+      <div class="lbl">レベル</div>
+      <div class="val" id="st-level">Lv.1 <small id="st-xp">0 / 100 XP</small></div>
+      <div class="xpbar"><i id="st-xpbar" style="width:0%"></i></div>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="today">きょう</button>
+    <button role="tab" aria-selected="false" data-tab="steps">ステップ表</button>
+    <button role="tab" aria-selected="false" data-tab="log">きろく</button>
+  </div>
+
+  <main id="view"></main>
+
+  <footer class="note">データはこの端末のブラウザに保存されます</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------------- data ---------------- */
+  var SUBJECTS = {
+    en: {
+      name: "英語", cv: "--c-en",
+      steps: [
+        "アルファベット大文字・小文字をぜんぶ書く",
+        "身の回りの英単語を10個おぼえる",
+        "I am 〜. / You are 〜. の文を5つ作る",
+        "be動詞 (am / is / are) の使い分け",
+        "be動詞の否定文とクエスチョン文",
+        "一般動詞の文 (like, play, have)",
+        "一般動詞の否定文・疑問文 (don't / doesn't)",
+        "三単現の s のルール",
+        "疑問詞 (What / Who / Where / When)",
+        "代名詞 (I - my - me - mine)",
+        "命令文と can の文",
+        "現在進行形 (be + 〜ing)",
+        "過去形 (規則動詞 -ed)",
+        "過去形 (不規則動詞 went, saw など)",
+        "未来の文 (will / be going to)"
+      ]
+    },
+    ja: {
+      name: "国語", cv: "--c-ja",
+      steps: [
+        "漢字10個 (小学校のおさらい)",
+        "漢字10個 (中学レベル)",
+        "短い文章を音読して、内容を一文でまとめる",
+        "指示語 (これ・それ) が指すものを探す",
+        "接続語 (しかし・だから) のはたらき",
+        "段落ごとの要点をつかむ",
+        "説明文: 筆者の言いたいことを見つける",
+        "物語文: 登場人物の気持ちを読み取る",
+        "慣用句・ことわざを10個おぼえる",
+        "文を文節・単語に分ける",
+        "主語・述語・修飾語を見つける",
+        "品詞のきほん (名詞・動詞・形容詞)",
+        "古文: 歴史的かなづかいのルール",
+        "古文: 竹取物語の冒頭を音読する",
+        "意見文を200字で書いてみる"
+      ]
+    },
+    sci: {
+      name: "理科", cv: "--c-sci",
+      steps: [
+        "ルーペ・顕微鏡の使い方と身近な生物の観察",
+        "花のつくり (おしべ・めしべ・がく)",
+        "植物の分類 (種子植物・被子/裸子)",
+        "光合成と呼吸のしくみ",
+        "物質の性質 (有機物と無機物)",
+        "気体の性質 (酸素・二酸化炭素・水素)",
+        "水溶液と濃度の計算",
+        "状態変化 (固体・液体・気体)",
+        "光の性質 (反射と屈折)",
+        "音の性質 (大きさと高さ)",
+        "力とばね (フックの法則)",
+        "火山と火成岩",
+        "地震のゆれ (P波とS波)",
+        "地層と堆積岩",
+        "化石からわかる大地の歴史"
+      ]
+    },
+    soc: {
+      name: "社会", cv: "--c-soc",
+      steps: [
+        "地図の見方 (方位・縮尺・地図記号)",
+        "六大陸と三海洋をおぼえる",
+        "世界の主な国と首都",
+        "都道府県と県庁所在地",
+        "時差の計算のしかた",
+        "世界の気候帯 (熱帯〜寒帯)",
+        "日本の地形 (山地・平野・川)",
+        "旧石器〜縄文・弥生時代",
+        "古墳時代と大和政権",
+        "飛鳥時代 (聖徳太子の政治)",
+        "奈良時代 (平城京と大仏)",
+        "平安時代 (貴族の文化)",
+        "鎌倉幕府のしくみ",
+        "室町時代と応仁の乱",
+        "戦国〜安土桃山時代"
+      ]
+    },
+    math: { name: "数学", cv: "--c-math", steps: null }
+  };
+
+  var WEAK = ["en", "ja", "sci", "soc"];
+  var BLOCK_MIN = 15;
+  var XP_BLOCK = 10, XP_STEP = 20, XP_PERFECT = 20, XP_LV = 100;
+
+  // 英語は毎日 / 国・理・社は3日サイクルで2教科ずつ / 最後は数学ごほうび枠
+  var PATTERNS = [
+    ["en", "ja", "sci", "math"],
+    ["en", "soc", "ja", "math"],
+    ["en", "sci", "soc", "math"]
+  ];
+
+  /* ---------------- state ---------------- */
+  var KEY = "kotsu60.v1";
+  var state = load();
+
+  function load() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    if (!s || typeof s !== "object") s = {};
+    if (typeof s.xp !== "number") s.xp = 0;
+    if (!s.cleared) s.cleared = {};
+    WEAK.forEach(function (k) {
+      if (!Array.isArray(s.cleared[k])) s.cleared[k] = SUBJECTS[k].steps.map(function () { return false; });
+    });
+    if (!s.history) s.history = {};
+    return s;
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function todayKey() {
+    var d = new Date();
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function keyOffset(off) {
+    var d = new Date();
+    d.setDate(d.getDate() + off);
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  }
+
+  function planFor(key) {
+    var days = Math.floor(new Date(key + "T00:00:00").getTime() / 86400000);
+    return PATTERNS[((days % 3) + 3) % 3];
+  }
+  function rec(key) {
+    if (!state.history[key]) {
+      state.history[key] = { done: [false, false, false, false], asked: [false, false, false, false], bonus: false };
+    }
+    var r = state.history[key];
+    if (!Array.isArray(r.asked)) r.asked = [false, false, false, false];
+    return r;
+  }
+  function currentStepIdx(subj) {
+    var arr = state.cleared[subj];
+    for (var i = 0; i < arr.length; i++) if (!arr[i]) return i;
+    return -1; // all clear
+  }
+  function doneCount(r) {
+    var n = 0;
+    for (var i = 0; i < 4; i++) if (r.done[i]) n++;
+    return n;
+  }
+
+  function streak() {
+    var n = 0, off = 0;
+    // 今日まだ何もしていなくても連続は切れていない扱い
+    var t = state.history[todayKey()];
+    if (!t || doneCount(t) === 0) off = -1;
+    for (var i = 0; i > -3650; i--) {
+      var r = state.history[keyOffset(off + i)];
+      if (r && doneCount(r) > 0) n++;
+      else break;
+    }
+    return n;
+  }
+
+  /* ---------------- timer ---------------- */
+  var timer = { idx: -1, total: 0, remain: 0, running: false, handle: null };
+
+  function startTimer(idx) {
+    stopTimer();
+    timer.idx = idx;
+    timer.total = BLOCK_MIN * 60;
+    timer.remain = timer.total;
+    timer.running = true;
+    timer.handle = setInterval(tick, 1000);
+    renderToday();
+  }
+  function stopTimer() {
+    if (timer.handle) clearInterval(timer.handle);
+    timer.handle = null;
+    timer.idx = -1;
+    timer.running = false;
+  }
+  function pauseTimer() {
+    timer.running = false;
+    if (timer.handle) clearInterval(timer.handle);
+    timer.handle = null;
+    renderToday();
+  }
+  function resumeTimer() {
+    if (timer.idx < 0) return;
+    timer.running = true;
+    timer.handle = setInterval(tick, 1000);
+    renderToday();
+  }
+  function tick() {
+    timer.remain--;
+    if (timer.remain <= 0) {
+      var idx = timer.idx;
+      stopTimer();
+      beep();
+      completeBlock(idx);
+      return;
+    }
+    var t = document.getElementById("tmr-time");
+    var bar = document.getElementById("tmr-bar");
+    if (t) t.textContent = fmt(timer.remain);
+    if (bar) {
+      var C = 2 * Math.PI * 63;
+      bar.setAttribute("stroke-dashoffset", (C * (1 - timer.remain / timer.total)).toFixed(1));
+    }
+  }
+  function fmt(sec) {
+    return pad(Math.floor(sec / 60)) + ":" + pad(sec % 60);
+  }
+  function beep() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [0, 0.18, 0.36].forEach(function (t, i) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.value = i === 2 ? 880 : 660;
+        g.gain.setValueAtTime(0.001, ctx.currentTime + t);
+        g.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.16);
+        o.connect(g); g.connect(ctx.destination);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.18);
+      });
+    } catch (e) {}
+  }
+
+  /* ---------------- actions ---------------- */
+  function addXp(n) {
+    state.xp += n;
+    save();
+    renderStatus();
+  }
+
+  function completeBlock(idx) {
+    if (timer.idx === idx) stopTimer();
+    var key = todayKey();
+    var r = rec(key);
+    if (r.done[idx]) { renderToday(); return; }
+    r.done[idx] = true;
+    var plan = planFor(key);
+    if (plan[idx] === "math" || currentStepIdx(plan[idx]) === -1) r.asked[idx] = true;
+    addXp(XP_BLOCK);
+    if (doneCount(r) === 4 && !r.bonus) {
+      r.bonus = true;
+      addXp(XP_PERFECT);
+    }
+    save();
+    renderToday();
+  }
+
+  function answerStep(idx, cleared) {
+    var key = todayKey();
+    var r = rec(key);
+    if (r.asked[idx]) return;
+    r.asked[idx] = true;
+    if (cleared) {
+      var subj = planFor(key)[idx];
+      var si = currentStepIdx(subj);
+      if (si >= 0) {
+        state.cleared[subj][si] = true;
+        addXp(XP_STEP);
+      }
+    }
+    save();
+    renderToday();
+  }
+
+  function toggleRung(subj, i) {
+    state.cleared[subj][i] = !state.cleared[subj][i];
+    if (state.cleared[subj][i]) addXp(XP_STEP);
+    save();
+    renderSteps();
+  }
+
+  /* ---------------- render ---------------- */
+  var view = document.getElementById("view");
+  var activeTab = "today";
+  var stepsSubj = "en";
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  function renderStatus() {
+    var lv = Math.floor(state.xp / XP_LV) + 1;
+    var cur = state.xp % XP_LV;
+    document.getElementById("st-streak").innerHTML = streak() + "<small> 日</small>";
+    document.getElementById("st-level").innerHTML = "Lv." + lv + ' <small id="st-xp">' + cur + " / " + XP_LV + " XP</small>";
+    document.getElementById("st-xpbar").style.width = cur + "%";
+  }
+
+  function renderToday() {
+    if (activeTab !== "today") return;
+    var key = todayKey();
+    var plan = planFor(key);
+    var r = rec(key);
+    var d = new Date();
+    var youbi = ["日", "月", "火", "水", "木", "金", "土"][d.getDay()];
+    var n = doneCount(r);
+
+    var html = '<div class="card today-head">'
+      + '<div><div class="date">' + (d.getMonth() + 1) + "月" + d.getDate() + "日 (" + youbi + ')</div>'
+      + '<div class="note">15分 × 4ブロック = 60分</div></div>'
+      + '<div class="dots">' + [0, 1, 2, 3].map(function (i) { return "<i" + (r.done[i] ? ' class="on"' : "") + "></i>"; }).join("") + "</div>"
+      + "</div>";
+
+    if (n === 4) {
+      html += '<div class="card cheer"><p class="big">🎉 きょうのミッション完了!</p>'
+        + "<p>60分やりきった。この積み重ねが一番強い。また明日!</p></div>";
+    }
+
+    html += '<div class="blocks">';
+    plan.forEach(function (subj, i) {
+      var S = SUBJECTS[subj];
+      var isMath = subj === "math";
+      var si = isMath ? -1 : currentStepIdx(subj);
+      var title, stepNo;
+      if (isMath) {
+        title = "好きな問題を解こう(得意を伸ばす時間)";
+        stepNo = "ごほうびブロック";
+      } else if (si === -1) {
+        title = "ステップ全クリア! 復習か次学年の予習をしよう";
+        stepNo = "全ステップクリア済み";
+      } else {
+        title = S.steps[si];
+        stepNo = "ステップ " + (si + 1) + " / " + S.steps.length;
+      }
+
+      var done = r.done[i];
+      var isActive = timer.idx === i;
+
+      html += '<div class="card block' + (done ? " is-done" : "") + '" style="--sc:var(' + S.cv + ')">'
+        + '<div class="row1"><span class="subj-chip">' + S.name + "</span>"
+        + '<span class="mins">' + BLOCK_MIN + "分</span>"
+        + (done ? '<span class="badge-done">✓ できた</span>' : (isMath ? '<span class="badge-bonus">BONUS</span>' : ""))
+        + "</div>"
+        + '<div class="step-title">' + esc(title) + "</div>"
+        + '<div class="step-no">' + esc(stepNo) + "</div>";
+
+      if (!done && isActive) {
+        var C = 2 * Math.PI * 63;
+        var off = C * (1 - timer.remain / timer.total);
+        html += '<div class="timer-wrap"><div class="ring">'
+          + '<svg width="158" height="158" viewBox="0 0 158 158" aria-hidden="true">'
+          + '<circle class="track" cx="79" cy="79" r="63" fill="none" stroke-width="10"/>'
+          + '<circle class="bar" id="tmr-bar" cx="79" cy="79" r="63" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"/>'
+          + "</svg>"
+          + '<div class="tval"><b id="tmr-time">' + fmt(timer.remain) + "</b><span>" + (timer.running ? "集中タイム" : "一時停止中") + "</span></div>"
+          + "</div>"
+          + '<div class="acts">'
+          + (timer.running
+            ? '<button class="btn" data-act="pause">⏸ 一時停止</button>'
+            : '<button class="btn" data-act="resume">▶ 再開</button>')
+          + '<button class="btn primary" data-act="done" data-i="' + i + '">✓ できた!</button>'
+          + '<button class="btn ghost" data-act="stop">やめる</button>'
+          + "</div></div>";
+      } else if (!done) {
+        html += '<div class="acts">'
+          + '<button class="btn primary" data-act="start" data-i="' + i + '">▶ タイマーで始める</button>'
+          + '<button class="btn" data-act="done" data-i="' + i + '">✓ できた</button>'
+          + "</div>";
+      } else if (!r.asked[i]) {
+        html += '<div class="ask"><p>「' + esc(title) + '」はクリアできた?</p>'
+          + '<div class="acts">'
+          + '<button class="btn primary" data-act="clear" data-i="' + i + '">◎ クリア! 次へ進む (+' + XP_STEP + 'XP)</button>'
+          + '<button class="btn" data-act="keep" data-i="' + i + '">△ 明日もう一回</button>'
+          + "</div></div>";
+      }
+      html += "</div>";
+    });
+    html += "</div>";
+    html += '<p class="hint">💡 苦手教科は「1ブロック=1ステップ」。できなくてもOK、15分やれば +' + XP_BLOCK + 'XP。4ブロック全部で +' + XP_PERFECT + 'XPボーナス!</p>';
+    view.innerHTML = html;
+  }
+
+  function renderSteps() {
+    if (activeTab !== "steps") return;
+    var html = '<div class="chips" role="tablist">';
+    WEAK.forEach(function (k) {
+      var S = SUBJECTS[k];
+      html += '<button class="chip" role="tab" style="--sc:var(' + S.cv + ')" aria-selected="' + (stepsSubj === k) + '" data-subj="' + k + '">' + S.name + "</button>";
+    });
+    html += "</div>";
+
+    var S = SUBJECTS[stepsSubj];
+    var arr = state.cleared[stepsSubj];
+    var cur = currentStepIdx(stepsSubj);
+    var clearedN = arr.filter(Boolean).length;
+
+    html += '<div class="card" style="--sc:var(' + S.cv + '); padding:0">'
+      + '<div class="ladder-h"><b>' + S.name + " のステップ表</b><span>" + clearedN + " / " + arr.length + " クリア</span></div>"
+      + '<div class="ladder">';
+    S.steps.forEach(function (t, i) {
+      html += '<button class="rung' + (arr[i] ? " cleared" : "") + '" data-rung="' + i + '">'
+        + '<span class="no">' + pad(i + 1) + "</span>"
+        + '<span class="box">' + (arr[i] ? "✓" : "") + "</span>"
+        + '<span class="t">' + esc(t) + "</span>"
+        + (i === cur ? '<span class="now">いまここ</span>' : "")
+        + "</button>";
+    });
+    html += "</div></div>";
+    html += '<p class="hint">タップでクリア済みにできるよ。順番どおりじゃなくてもOK。「きょう」タブには一番若い未クリアのステップが出ます。</p>';
+    view.innerHTML = html;
+  }
+
+  function renderLog() {
+    if (activeTab !== "log") return;
+    var totalBlocks = 0, perfect = 0;
+    Object.keys(state.history).forEach(function (k) {
+      var n = doneCount(state.history[k]);
+      totalBlocks += n;
+      if (n === 4) perfect++;
+    });
+    var hours = Math.floor(totalBlocks * BLOCK_MIN / 60);
+    var mins = (totalBlocks * BLOCK_MIN) % 60;
+
+    var html = '<div class="stat-row">'
+      + '<div class="card"><div class="lbl">れんぞく</div><div class="val">' + streak() + "<small> 日</small></div></div>"
+      + '<div class="card"><div class="lbl">合計時間</div><div class="val">' + hours + "<small> 時間 </small>" + mins + "<small> 分</small></div></div>"
+      + '<div class="card"><div class="lbl">パーフェクト</div><div class="val">' + perfect + "<small> 日</small></div></div>"
+      + "</div>";
+
+    // 28日ヒートマップ
+    html += '<div class="section-h"><h2>この4週間</h2><div class="sub">1マス = 1日</div></div>'
+      + '<div class="card"><div class="heat">';
+    var tk = todayKey();
+    for (var off = -27; off <= 0; off++) {
+      var k = keyOffset(off);
+      var r = state.history[k];
+      var n = r ? doneCount(r) : 0;
+      html += '<i class="' + (n ? "l" + n : "") + (k === tk ? " today" : "") + '" title="' + k + " : " + n + 'ブロック"></i>';
+    }
+    html += "</div>"
+      + '<div class="heat-lgd"><span>0</span><i></i><i class="l4"></i><span>4ブロック</span></div>'
+      + "</div>";
+
+    // 教科別進捗
+    html += '<div class="section-h"><h2>教科別ステップ</h2></div><div class="card sub-prog">';
+    WEAK.forEach(function (k) {
+      var S = SUBJECTS[k];
+      var arr = state.cleared[k];
+      var n = arr.filter(Boolean).length;
+      html += '<div class="row" style="--sc:var(' + S.cv + ')">'
+        + '<span class="nm">' + S.name + "</span>"
+        + '<span class="bar"><i style="width:' + Math.round(n / arr.length * 100) + '%"></i></span>'
+        + '<span class="ct">' + n + " / " + arr.length + "</span></div>";
+    });
+    html += "</div>";
+    view.innerHTML = html;
+  }
+
+  function render() {
+    renderStatus();
+    if (activeTab === "today") renderToday();
+    else if (activeTab === "steps") renderSteps();
+    else renderLog();
+  }
+
+  /* ---------------- events ---------------- */
+  document.querySelector(".tabs").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-tab]");
+    if (!b) return;
+    activeTab = b.dataset.tab;
+    document.querySelectorAll(".tabs button").forEach(function (x) {
+      x.setAttribute("aria-selected", String(x === b));
+    });
+    render();
+  });
+
+  view.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.subj) { stepsSubj = b.dataset.subj; renderSteps(); return; }
+    if (b.dataset.rung !== undefined && b.dataset.rung !== "") { toggleRung(stepsSubj, +b.dataset.rung); return; }
+    var act = b.dataset.act;
+    if (!act) return;
+    var i = +b.dataset.i;
+    if (act === "start") startTimer(i);
+    else if (act === "pause") pauseTimer();
+    else if (act === "resume") resumeTimer();
+    else if (act === "stop") { stopTimer(); renderToday(); }
+    else if (act === "done") completeBlock(i);
+    else if (act === "clear") answerStep(i, true);
+    else if (act === "keep") answerStep(i, false);
+  });
+
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
